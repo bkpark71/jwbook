@@ -22,7 +22,7 @@
             <td>${s.birth}</td>
             <td>${s.email}</td>
             <td><a href="/student?action=update&id=${s.id}">수정하기</a></td>
-            <td><a href="/student?action=delete&id=${p.id}">삭제하기</a></td>
+            <td><a href="/student?action=delete&id=${s.id}">삭제하기</a></td>
         </tr>
     </c:forEach>
 </table>
@@ -30,7 +30,7 @@
 <h2>학생 추가</h2>
 <hr>
 <form action="/student?action=insert" method="post">
-    <p>id<input type="text" name="id"></p>
+<%--    <p>id<input type="text" name="id"></p>--%>
     <p>name<input type="text" name="name"></p>
     <p>univ<input type="text" name="univ"></p>
     <p>birth<input type="text" name="birth"></p>

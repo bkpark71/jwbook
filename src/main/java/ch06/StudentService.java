@@ -47,7 +47,7 @@ public class StudentService {
                 s.setId(rs.getInt("id"));
                 s.setName(rs.getString("name"));
                 s.setUniv(rs.getString("univ"));
-                s.setBirth(rs.getDate("birth"));
+                s.setBirth(rs.getString("birth"));
                 s.setEmail(rs.getString("email"));
                 students.add(s);
             }
@@ -57,31 +57,31 @@ public class StudentService {
         return students;
     }
 
-    public Product findById(String id){
-        Product p = new Product();
+    public Student findById(int id){
+        Student s = new Student();
         try {
-            pstmt = conn.prepareStatement("select * from product where id = ?");
-            pstmt.setString(1,id);
+            pstmt = conn.prepareStatement("select * from student where id = ?");
+            pstmt.setInt(1,id);
             ResultSet rs = pstmt.executeQuery();
 
             rs.next();
-            p.setId(rs.getString("id"));
-            p.setName(rs.getString("name"));
-            p.setMaker(rs.getString("maker"));
-            p.setPrice(rs.getInt("price"));
-            p.setDate(rs.getString("date"));
+            s.setId(rs.getInt("id"));
+            s.setName(rs.getString("name"));
+            s.setUniv(rs.getString("univ"));
+            s.setBirth(rs.getString("birth"));
+            s.setEmail(rs.getString("email"));
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return p;
+        return s;
     }
 
-    public void update(String id, int price){
+    public void update(int id, String email){
         try {
-            pstmt = conn.prepareStatement("update product set price=? where id = ?");
-            pstmt.setInt(1,price);
-            pstmt.setString(2,id);
+            pstmt = conn.prepareStatement("update student set email=? where id = ?");
+            pstmt.setString(1,email);
+            pstmt.setInt(2,id);
             int res = pstmt.executeUpdate();
             if (res == 1) {
                 System.out.println("수정 완료");
@@ -92,14 +92,13 @@ public class StudentService {
     }
 
 
-    public void insert(Product product){
+    public void insert(Student student){
         try {
-            pstmt = conn.prepareStatement("insert into product values(?,?,?,?,?);");
-            pstmt.setString(1,product.getId());
-            pstmt.setString(2,product.getName());
-            pstmt.setString(3,product.getMaker());
-            pstmt.setInt(4,product.getPrice());
-            pstmt.setString(5,product.getDate());
+            pstmt = conn.prepareStatement("insert into student(name, univ, birth, email) values(?,?,?,?);");
+            pstmt.setString(1,student.getName());
+            pstmt.setString(2,student.getUniv());
+            pstmt.setString(3,student.getBirth().toString());
+            pstmt.setString(4,student.getEmail());
             int res = pstmt.executeUpdate();
             if (res == 1) {
                 System.out.println("등록 완료");
@@ -109,11 +108,11 @@ public class StudentService {
         }
     }
 
-    public void delete(String id){
+    public void delete(int id){
         try {
             System.out.println("service.delete 실행중");
-            pstmt = conn.prepareStatement("delete from product where id = ?");
-            pstmt.setString(1,id);
+            pstmt = conn.prepareStatement("delete from student where id = ?");
+            pstmt.setInt(1,id);
             int res = pstmt.executeUpdate();
             if (res == 1) {
                 System.out.println("삭제 완료");
