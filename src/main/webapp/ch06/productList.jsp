@@ -21,6 +21,7 @@
             <td>${p.price}</td>
         </tr>
     </c:forEach>
+    <a href="/pcontrol?action=insert">추가하기</a>
 </table>
 </body>
 </html>

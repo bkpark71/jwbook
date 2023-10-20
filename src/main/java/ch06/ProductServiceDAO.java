@@ -13,7 +13,6 @@ public class ProductServiceDAO {
     final String JDBC_URL = "jdbc:mysql://127.0.0.1/jwbook?serverTimezone=Asia/Seoul";
 
     public void open() {
-
         try {
             Class.forName(JDBC_DRIVER);
             System.out.println("연결하는중...");
@@ -36,12 +35,9 @@ public class ProductServiceDAO {
     }
 
     public ProductServiceDAO() {
-
     }
 
     public List<Product> findAll() {
-        System.out.println("데이터베이스 연결하기 전");
-        //open();
         List<Product> products = new ArrayList<>();
         try {
             pstmt = conn.prepareStatement("select * from product");
@@ -59,14 +55,10 @@ public class ProductServiceDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-//        finally {
-//            close();
-//        }
         return products;
     }
 
     public Product findById(String id){
-        //open();
         Product p = new Product();
         try {
             pstmt = conn.prepareStatement("select * from product where id = ?");
@@ -83,18 +75,24 @@ public class ProductServiceDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-//        finally {
-//            close();
-//        }
         return p;
     }
 
-//    public void update(String id, int price){
-//        Product p = findById(id);
-//        p.setPrice(price);
-//        products.put(id, p);
-//    }
-//
+    public void update(String id, int price){
+        try {
+            pstmt = conn.prepareStatement("update product set price=? where id = ?");
+            pstmt.setInt(1,price);
+            pstmt.setString(2,id);
+            int res = pstmt.executeUpdate();
+            if (res == 1) {
+                System.out.println("수정 완료");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
     public void insert(Product product){
         try {
             pstmt = conn.prepareStatement("insert into product values(?,?,?,?,?);");
@@ -106,6 +104,20 @@ public class ProductServiceDAO {
             int res = pstmt.executeUpdate();
             if (res == 1) {
                 System.out.println("등록 완료");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void delete(String id){
+        try {
+            System.out.println("service.delete 실행중");
+            pstmt = conn.prepareStatement("delete from product where id = ?");
+            pstmt.setString(1,id);
+            int res = pstmt.executeUpdate();
+            if (res == 1) {
+                System.out.println("삭제 완료");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

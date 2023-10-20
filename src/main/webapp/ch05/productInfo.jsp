@@ -8,7 +8,7 @@
 </head>
 <body>
 <h2>Product 상세정보</h2>
-<form action="/pcontrol?action=update" method="post">
+<form action="/pcontrol?action=update" method="get">
 <ul>
     <li>id : ${p.id}</li>
     <li>name : ${p.name}</li>
