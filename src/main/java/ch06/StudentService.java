@@ -68,7 +68,7 @@ public class StudentService {
             s.setId(rs.getInt("id"));
             s.setName(rs.getString("name"));
             s.setUniv(rs.getString("univ"));
-            s.setBirth(rs.getString("birth"));
+            //s.setBirth(rs.getString("birth"));
             s.setEmail(rs.getString("email"));
 
         } catch (SQLException e) {
