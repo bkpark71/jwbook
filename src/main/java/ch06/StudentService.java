@@ -97,7 +97,7 @@ public class StudentService {
             pstmt = conn.prepareStatement("insert into student(name, univ, birth, email) values(?,?,?,?);");
             pstmt.setString(1,student.getName());
             pstmt.setString(2,student.getUniv());
-            pstmt.setString(3,student.getBirth().toString());
+            pstmt.setString(3,student.getBirth());
             pstmt.setString(4,student.getEmail());
             int res = pstmt.executeUpdate();
             if (res == 1) {

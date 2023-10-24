@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewsDAO {
-
-
     final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     final String JDBC_URL = "jdbc:mysql://127.0.0.1/jwbook?serverTimezone=Asia/Seoul";
 
@@ -27,14 +25,14 @@ public class NewsDAO {
         return conn;
     }
 
-    public void close(){
-        try {
-            pstmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void close(){
+//        try {
+//            pstmt.close();
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public NewsDAO() {
     }
@@ -70,6 +68,7 @@ public class NewsDAO {
         ResultSet rs = pstmt.executeQuery();
 
         rs.next();
+
         news.setAid(rs.getInt("aid"));
         news.setTitle(rs.getString("title"));
         news.setImg(rs.getString("img"));
@@ -114,17 +113,17 @@ public class NewsDAO {
         conn.close();
     }
 
-    public void delete(String id){
-        try {
-            System.out.println("service.delete 실행중");
-            pstmt = conn.prepareStatement("delete from product where id = ?");
-            pstmt.setString(1,id);
-            int res = pstmt.executeUpdate();
-            if (res == 1) {
-                System.out.println("삭제 완료");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public void delNews(int aid) throws SQLException{
+        Connection conn = open();
+        PreparedStatement pstmt = conn.prepareStatement("delete from product where id = ?");
+        pstmt.setInt(1,aid);
+
+        int res = pstmt.executeUpdate();
+
+        if (res == 0) {
+            throw new SQLException("News 삭제 오류");
         }
+        pstmt.close();
+        conn.close();
     }
 }

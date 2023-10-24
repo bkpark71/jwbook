@@ -10,6 +10,6 @@ public class Student {
     private int id;
     private String name;
     private String univ;
-    private Date birth;
+    private String birth;
     private String email;
 }
