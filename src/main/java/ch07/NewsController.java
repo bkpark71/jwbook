@@ -14,6 +14,8 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/news.nhn")
 @MultipartConfig(maxFileSize = 1024*1024*2 , location = "c:/Temp/img")
@@ -37,7 +39,7 @@ public class NewsController extends HttpServlet {
         Method m;
         System.out.println("action == " + action);
         if(action == null) {
-            action = "list";
+            ctx.getRequestDispatcher("/news.nhn?action=list").forward(req,resp);
         } else {
             try {
                 m = this.getClass().getMethod(action, HttpServletRequest.class, HttpServletResponse.class);
@@ -52,6 +54,7 @@ public class NewsController extends HttpServlet {
                 ctx.getRequestDispatcher("/ch07/"+ view).forward(req,resp);
             }
         }
+
     }
 
     public String addNews(HttpServletRequest req, HttpServletResponse resp){
@@ -74,14 +77,32 @@ public class NewsController extends HttpServlet {
     }
 
     public String list(HttpServletRequest req, HttpServletResponse resp){
-        return null;
+        try {
+            List<News> list = newsDAO.getAll();
+            System.out.println("list ==" + list);
+            req.setAttribute("newsList", list);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "newsList.jsp";
     }
 
     public String delNews(HttpServletRequest req, HttpServletResponse resp){
-        return null;
+        try {
+            newsDAO.delNews(Integer.parseInt(req.getParameter("aid")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/news.nhn?action=list";
     }
 
     public String getNews(HttpServletRequest req, HttpServletResponse resp){
-        return null;
+        try {
+            News news = newsDAO.getNews(Integer.parseInt(req.getParameter("aid")));
+            req.setAttribute("news", news);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "newsView.jsp";
     }
 }

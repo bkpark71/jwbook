@@ -13,7 +13,7 @@
 <h2>${news.title}</h2>
 <hr>
 <div class="card w-75 mx-auto">
-    <img class="card-img-top" src="${news.img}" alt="news 이미지">
+    <img class="card-img-top" src="${news.img}" alt="${news.img}">
     <div class="card-body">
         <h4 class="card-title">Date : ${news.date}</h4>
         <p class="card-text">Content : ${news.content}</p>

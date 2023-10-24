@@ -41,7 +41,7 @@ public class NewsDAO {
         Connection conn = open();
         List<News> newsList = new ArrayList<>();
         PreparedStatement pstmt = null;
-        pstmt = conn.prepareStatement("select aid, title, PARSEDATETIME(date, 'yyyy-mm-dd hh:mm:ss') as cdate from news");
+        pstmt = conn.prepareStatement("select aid, title, date_format(date, '%Y-%m-%d %h-%m-%s') as cdate from news");
         ResultSet rs = pstmt.executeQuery();
 
         while(rs.next()) {
@@ -49,6 +49,7 @@ public class NewsDAO {
             news.setAid(rs.getInt("aid"));
             news.setTitle(rs.getString("title"));
             news.setDate(rs.getString("cdate"));
+            System.out.println("aid  == "+ rs.getInt("aid"));
             newsList.add(news);
         }
         pstmt.close();
@@ -62,8 +63,8 @@ public class NewsDAO {
         News news = new News();
         PreparedStatement pstmt = null;
 
-        pstmt = conn.prepareStatement("select aid, title, img, PARSEDATETIME(date, 'yyyy-mm-dd hh:mm:ss') as cdate, content " +
-                "from product where id = ?");
+        pstmt = conn.prepareStatement("select aid, title, img, date_format(date, '%Y-%m-%d %h-%m-%s') as cdate, content " +
+                "from news where aid = ?");
         pstmt.setInt(1,aid);
         ResultSet rs = pstmt.executeQuery();
 
@@ -115,7 +116,7 @@ public class NewsDAO {
 
     public void delNews(int aid) throws SQLException{
         Connection conn = open();
-        PreparedStatement pstmt = conn.prepareStatement("delete from product where id = ?");
+        PreparedStatement pstmt = conn.prepareStatement("delete from news where aid = ?");
         pstmt.setInt(1,aid);
 
         int res = pstmt.executeUpdate();
