@@ -35,11 +35,12 @@ public class NewsController extends HttpServlet {
         String action = req.getParameter("action");
         String view= null;
         Method m;
+        System.out.println("action == " + action);
         if(action == null) {
             action = "list";
         } else {
             try {
-                m = this.getClass().getMethod(action, HttpServletRequest.class);
+                m = this.getClass().getMethod(action, HttpServletRequest.class, HttpServletResponse.class);
                 view = (String)m.invoke(this, req, resp);
             } catch (Exception e){
                 e.printStackTrace();
@@ -57,7 +58,9 @@ public class NewsController extends HttpServlet {
         News news = new News();
         try {
             Part part = req.getPart("img");
+            System.out.println("part == " + part);
             String fileName = part.getSubmittedFileName();
+            System.out.println("fileName == " + fileName);
             if(fileName != null && !fileName.isEmpty()){
                 part.write(fileName);
             }
