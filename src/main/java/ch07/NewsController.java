@@ -33,7 +33,7 @@ public class NewsController extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("utf-8");
+//        req.setCharacterEncoding("utf-8");
         String action = req.getParameter("action");
         String view= null;
         Method m;
