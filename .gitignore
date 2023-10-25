@@ -5,6 +5,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea/
+.src/main/webapp/img
 *.iws
 *.iml
 *.ipr
